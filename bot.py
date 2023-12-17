@@ -87,8 +87,8 @@ class Bot:
             "exit", self.close, "exit", "Close the program."
         )
         self.cmds["q"] = Cmd("q", self.close, "q", "Close the program.")
-        self.cmds["help"] = Cmd("help", self.help, "help", "Show this message")
-        self.cmds["h"] = Cmd("h", self.help, "h", "Show this message")
+        self.cmds["help"] = Cmd("help", self.help, "help", "Show this message.")
+        self.cmds["h"] = Cmd("h", self.help, "h", "Show this message.")
         self.cmds["unknown_cmd"] = Cmd("unknown_cmd", self.unknown_cmd, "", "")
         self.addressbook = addressbook
         self.finish = False

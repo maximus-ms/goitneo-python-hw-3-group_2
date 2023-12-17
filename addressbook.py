@@ -177,15 +177,15 @@ class AddressBook(UserDict):
     def dummy_dump_to_file():
         pass
 
-    def __getitem__(self, name):
-        if not name in self.data:
-            raise ErrorWithMsg(f"Contact '{name}' does not exist.")
-        return self.data[name]
-
     def __iter__(self):
         if len(self.data) == 0:
             raise ErrorWithMsg(f"Addressbook is empty.")
         return super().__iter__()
+
+    def __getitem__(self, name):
+        if not name in self.data:
+            raise ErrorWithMsg(f"Contact '{name}' does not exist.")
+        return self.data[name]
 
     @save_data
     def __setitem__(self, name, value):

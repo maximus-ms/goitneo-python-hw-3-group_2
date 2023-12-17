@@ -71,9 +71,11 @@ def get_birthdays_per_week(users, debug=False, today=None):
                     )
                 )
             days[congrats_at].append(user["name"])
+    ret_txt = []
     for day in range(7):
         if len(days[day]) > 0:
-            print("{}: {}".format(day_name[day], ", ".join(sorted(days[day]))))
+            ret_txt.append("{}: {}".format(day_name[day], ", ".join(sorted(days[day]))))
+    return "\n".join(ret_txt)
 
 
 if __name__ == "__main__":
@@ -235,4 +237,4 @@ if __name__ == "__main__":
         for user in users:
             print(user)
         exit()
-    get_birthdays_per_week(users, debug=True, today=fake_today)
+    print(get_birthdays_per_week(users, debug=True, today=fake_today))

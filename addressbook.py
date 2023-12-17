@@ -7,7 +7,10 @@ from datetime import datetime
 
 import birthdays
 
-class ErrorWithMsg(Exception): pass
+
+class ErrorWithMsg(Exception):
+    pass
+
 
 class Field(ABC):
     """Base class for record fields."""
@@ -69,7 +72,7 @@ class Birthday(Field):
 class Record:
     """Class for storing contact information, including name and a list of phones."""
 
-    def __init__(self, name:str, phone:str=None):
+    def __init__(self, name: str, phone: str = None):
         self.name = Name(name)
         self.phones = []
         self.birthday = Birthday()
@@ -123,9 +126,11 @@ class Record:
             raise ErrorWithMsg("Birthday is not set")
         return birthday
 
+
 class AddressBook(UserDict):
     """Class for storing and managing records."""
-    def __init__(self, filename:str=None):
+
+    def __init__(self, filename: str = None):
         super().__init__()
         self.__dump_to_file = self.dummy_dump_to_file
         self.__filename = filename
@@ -134,24 +139,27 @@ class AddressBook(UserDict):
                 print("JSON does not supported yet. Please use bin file.")
                 exit(1)
                 self.__serializer = json
-                self.__file_mode = ''
+                self.__file_mode = ""
             else:
                 self.__serializer = pickle
-                self.__file_mode = 'b'
+                self.__file_mode = "b"
             self.__dump_to_file = self.write_to_file
             self.load_from_file()
 
     def write_to_file(self):
-        with open(self.__filename, 'w'+self.__file_mode) as fd:
+        with open(self.__filename, "w" + self.__file_mode) as fd:
             self.__serializer.dump(self.data, fd)
 
     def load_from_file(self):
-        if not os.path.isfile(self.__filename): return
+        if not os.path.isfile(self.__filename):
+            return
         try:
-            with open(self.__filename, 'r'+self.__file_mode) as fd:
+            with open(self.__filename, "r" + self.__file_mode) as fd:
                 self.data = self.__serializer.load(fd)
         except:
-            print(f"Can not load addressbook from the file '{self.__filename}'")
+            print(
+                f"Can not load addressbook from the file '{self.__filename}'"
+            )
 
     def save_data(func):
         def inner(*args, **kwargs):
@@ -159,6 +167,7 @@ class AddressBook(UserDict):
             __self = args[0]
             __self.dump_to_file()
             return ret
+
         return inner
 
     def dump_to_file(self):
@@ -188,7 +197,9 @@ class AddressBook(UserDict):
     @save_data
     def add_record(self, record: Record):
         if record.name.value in self.data:
-            raise ErrorWithMsg(f"Contact '{record.name.value}' already exists.")
+            raise ErrorWithMsg(
+                f"Contact '{record.name.value}' already exists."
+            )
         self.data[record.name.value] = record
 
     def find(self, name: str) -> Record:
@@ -199,10 +210,12 @@ class AddressBook(UserDict):
         for record in self.data.values():
             birthday = record.birthday.value
             if birthday:
-                birthday_list.append({
+                birthday_list.append(
+                    {
                         "name": record.name.value,
-                        'birthday': datetime.strptime(birthday, "%d.%m.%Y")
-                    })
+                        "birthday": datetime.strptime(birthday, "%d.%m.%Y"),
+                    }
+                )
         return birthday_list
 
     def get_birthdays_per_week(self):
@@ -215,4 +228,3 @@ class AddressBook(UserDict):
     @save_data
     def delete_all(self):
         self.data.clear()
-

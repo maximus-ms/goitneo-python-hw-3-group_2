@@ -74,7 +74,9 @@ def get_birthdays_per_week(users, debug=False, today=None):
     ret_txt = []
     for day in range(7):
         if len(days[day]) > 0:
-            ret_txt.append("{}: {}".format(day_name[day], ", ".join(sorted(days[day]))))
+            ret_txt.append(
+                "{}: {}".format(day_name[day], ", ".join(sorted(days[day])))
+            )
     return "\n".join(ret_txt)
 
 
